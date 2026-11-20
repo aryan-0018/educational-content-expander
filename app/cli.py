@@ -50,6 +50,12 @@ def main(argv: list[str] | None = None) -> None:
         help="Sampling temperature when using sampling strategy (default: 0.7)",
     )
     expand_p.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help="Random seed for reproducible sampling (default: None)",
+    )
+    expand_p.add_argument(
         "--corpus",
         type=str,
         default=None,
@@ -91,6 +97,7 @@ def main(argv: list[str] | None = None) -> None:
             max_words=args.max_words,
             strategy=args.strategy,
             temperature=args.temperature,
+            seed=args.seed,
         )
         print(expanded)
         if args.output:

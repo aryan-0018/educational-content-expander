@@ -196,8 +196,11 @@ def expand_text(
     max_words: int = 15,
     strategy: str = "greedy",
     temperature: float = 0.7,
+    seed: int | None = None,
 ) -> str:
     """Expand a short prompt or bullet point into a complete sentence using the n-gram model."""
+    if seed is not None:
+        random.seed(seed)
     clean_input = input_text.strip().lstrip("-*•0123456789. ")
     tokens = tokenize(clean_input)
     if not tokens:
