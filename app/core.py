@@ -273,9 +273,34 @@ def milestone_3(
     return expand_text(prompt, model, max_words=max_words, strategy=strategy)
 
 
-def milestone_4(prompt: str, n: int = 3, k: float = 0.1, max_words: int = 12) -> str:
-    """Milestone 4: Develop a simple CLI for text input and expansion output.
-    Hint: Basic input/output handling for a command-line application.
+def milestone_4(
+    prompt: str,
+    n: int = 3,
+    k: float = 0.1,
+    max_words: int = 12,
+    strategy: str = "greedy",
+    temperature: float = 0.7,
+    seed: int | None = None,
+    output: str | None = None,
+    corpus_path: str | Path | None = None,
+) -> str:
+    """Milestone 4: CLI integration helper for text expansion with full option support.
+    
+    Accepts educator prompts, builds or loads the smoothed N-gram model,
+    generates coherent expansions, and optionally saves output to file.
     """
-    model = milestone_2(n=n, k=k)
-    return expand_text(prompt, model, max_words=max_words, strategy="greedy")
+    sentences = load_corpus(corpus_path)
+    model = milestone_2(sentences=sentences, n=n, k=k)
+    expanded = expand_text(
+        prompt,
+        model,
+        max_words=max_words,
+        strategy=strategy,
+        temperature=temperature,
+        seed=seed,
+    )
+    if output:
+        out_file = Path(output)
+        out_file.parent.mkdir(parents=True, exist_ok=True)
+        out_file.write_text(expanded + "\n", encoding="utf-8")
+    return expanded

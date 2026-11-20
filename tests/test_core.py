@@ -71,8 +71,24 @@ def test_milestone_3():
 
 
 # Milestone 4: Develop a simple CLI for text input and expansion output.
-def test_milestone_4():
+def test_milestone_4(tmp_path):
+    # Test basic expansion
     result = milestone_4("Natural selection")
     assert isinstance(result, str)
     assert "natural selection" in result.lower()
     assert result.endswith((".", "!", "?"))
+
+    # Test milestone_4 with full option suite and file output
+    out_file = str(tmp_path / "expanded_lesson.txt")
+    result_saved = milestone_4(
+        "• Photosynthesis is",
+        n=2,
+        k=0.05,
+        max_words=8,
+        strategy="sampling",
+        seed=100,
+        output=out_file,
+    )
+    assert "photosynthesis is" in result_saved.lower()
+    from pathlib import Path
+    assert Path(out_file).read_text(encoding="utf-8").strip() == result_saved

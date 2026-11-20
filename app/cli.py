@@ -6,7 +6,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from app.core import expand_text, load_corpus, milestone_2
+from app.core import expand_text, load_corpus, milestone_2, milestone_4
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -89,21 +89,19 @@ def main(argv: list[str] | None = None) -> None:
     if args.command == "hello":
         print("Educational Content Expander is ready. Open README.md for your milestones.")
     elif args.command == "expand":
-        sentences = load_corpus(args.corpus)
-        model = milestone_2(sentences, n=args.n, k=args.k)
-        expanded = expand_text(
-            args.text,
-            model,
+        expanded = milestone_4(
+            prompt=args.text,
+            n=args.n,
+            k=args.k,
             max_words=args.max_words,
             strategy=args.strategy,
             temperature=args.temperature,
             seed=args.seed,
+            output=args.output,
+            corpus_path=args.corpus,
         )
         print(expanded)
         if args.output:
-            out_path = Path(args.output)
-            out_path.parent.mkdir(parents=True, exist_ok=True)
-            out_path.write_text(expanded + "\n", encoding="utf-8")
             print(f"(Saved expansion to {args.output})")
     elif args.command == "suggest":
         sentences = load_corpus()

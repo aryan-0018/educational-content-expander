@@ -100,7 +100,6 @@ Sample generated output files are saved in the [`results/`](./results) directory
 
 Dependencies are pinned in `requirements.txt`:
 ```
-httpx==0.28.1
 pytest==8.3.3
 ```
 
